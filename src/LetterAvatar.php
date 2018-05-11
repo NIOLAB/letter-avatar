@@ -160,10 +160,11 @@ class LetterAvatar {
 
     /**
      * Returns a lighter version of the color, you can use this as backgrounds in designs perhaps
+     * @param float $lighten
      * @return string
      */
-    public function getBackgroundColor() {
-        return $this->colorLuminance($this->color,0.2);
+    public function getBackgroundColor($lighten = 0.5) {
+        return $this->colorLuminance($this->color,$lighten);
     }
 
     public function __toString() {
