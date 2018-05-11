@@ -4,8 +4,7 @@ namespace promocat\LetterAvatar;
 
 use Intervention\Image\ImageManager;
 
-class LetterAvatar
-{
+class LetterAvatar {
     /**
      * @var string
      */
@@ -34,9 +33,13 @@ class LetterAvatar
      */
     protected $image_manager;
 
+    /**
+     * @var string;
+     */
+    protected $color;
 
-    public function __construct($name, $shape = 'circle', $size = '48')
-    {
+
+    public function __construct($name, $shape = 'circle', $size = '48') {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
         $this->setShape($shape);
@@ -46,64 +49,56 @@ class LetterAvatar
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     }
 
     /**
      * @return ImageManager
      */
-    public function getImageManager()
-    {
+    public function getImageManager() {
         return $this->image_manager;
     }
 
     /**
      * @param ImageManager $image_manager
      */
-    public function setImageManager(ImageManager $image_manager)
-    {
+    public function setImageManager(ImageManager $image_manager) {
         $this->image_manager = $image_manager;
     }
 
     /**
      * @return string
      */
-    public function getShape()
-    {
+    public function getShape() {
         return $this->shape;
     }
 
     /**
      * @param string $shape
      */
-    public function setShape($shape)
-    {
+    public function setShape($shape) {
         $this->shape = $shape;
     }
 
     /**
      * @return int
      */
-    public function getSize()
-    {
+    public function getSize() {
         return $this->size;
     }
 
     /**
      * @param int $size
      */
-    public function setSize($size)
-    {
+    public function setSize($size) {
         $this->size = $size;
     }
 
@@ -111,8 +106,7 @@ class LetterAvatar
     /**
      * @return \Intervention\Image\Image
      */
-    public function generate()
-    {
+    public function generate() {
         $words = $this->break_words($this->name);
 
         $number_of_word = 1;
@@ -127,7 +121,7 @@ class LetterAvatar
             $number_of_word++;
         }
 
-        $color = $this->stringToColor($this->name);
+        $this->color = $color = $this->stringToColor($this->name);
 
         if ($this->shape == 'circle') {
             $canvas = $this->image_manager->canvas(480, 480);
@@ -152,33 +146,42 @@ class LetterAvatar
         return $canvas->resize($this->size, $this->size);
     }
 
-    public function saveAs($path, $mimetype = 'image/png', $quality = 90)
-    {
-        if(empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg'){
+    public function saveAs($path, $mimetype = 'image/png', $quality = 90) {
+        if (empty($path) || empty($mimetype) || $mimetype != "image/png" && $mimetype != 'image/jpeg') {
             return false;
         }
 
         return @file_put_contents($path, $this->generate()->encode($mimetype, $quality));
     }
 
-    public function __toString()
-    {
-        return (string) $this->generate()->encode('data-url');
+    public function getColor() {
+        return $this->color;
+    }
+
+    /**
+     * Returns a lighter version of the color, you can use this as backgrounds in designs perhaps
+     * @return string
+     */
+    public function getBackgroundColor() {
+        return $this->colorLuminance($this->color,0.2);
+    }
+
+    public function __toString() {
+        return (string)$this->generate()->encode('data-url');
     }
 
     public function break_words($name) {
         $temp_word_arr = explode(' ', $name);
-        $final_word_arr = array();
+        $final_word_arr = [];
         foreach ($temp_word_arr as $key => $word) {
-            if( $word != "" && $word != ",") {
+            if ($word != "" && $word != ",") {
                 $final_word_arr[] = $word;
             }
         }
         return $final_word_arr;
     }
 
-    protected function stringToColor($string)
-    {
+    protected function stringToColor($string) {
         // random color
         $rgb = substr(dechex(crc32($string)), 0, 6);
         // make it darker
@@ -189,5 +192,32 @@ class LetterAvatar
         $B = sprintf("%02X", floor(hexdec($B16) / $darker));
         return '#' . $R . $G . $B;
     }
-    
+
+    /**
+     * Adjust color luminance (@see  https://gist.github.com/stephenharris/5532899)
+     * @param $hex
+     * @param $percent
+     * @return string
+     */
+    protected function colorLuminance($hex, $percent) {
+
+        // validate hex string
+
+        $hex = preg_replace('/[^0-9a-f]/i', '', $hex);
+        $new_hex = '#';
+
+        if (strlen($hex) < 6) {
+            $hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2] + $hex[2];
+        }
+
+        // convert to decimal and change luminosity
+        for ($i = 0; $i < 3; $i++) {
+            $dec = hexdec(substr($hex, $i * 2, 2));
+            $dec = min(max(0, $dec + $dec * $percent), 255);
+            $new_hex .= str_pad(dechex($dec), 2, 0, STR_PAD_LEFT);
+        }
+
+        return $new_hex;
+    }
+
 }
