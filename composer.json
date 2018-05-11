@@ -1,12 +1,12 @@
 {
-    "name": "yohang88/letter-avatar",
+    "name": "promocat/letter-avatar",
     "description": "Generate user avatar using name initials letter.",
     "keywords": [
         "letter avatar",
         "avatar",
         "profile picture"
     ],
-    "homepage": "https://github.com/yohang88/letter-avatar",
+    "homepage": "https://github.com/promocat/letter-avatar",
     "license": "MIT",
     "authors": [
         {
@@ -14,6 +14,11 @@
             "email": "yohang88@gmail.com",
             "homepage": "https://yohang.net",
             "role": "Developer"
+        },
+        {
+          "name": "PromoCat",
+          "email": "development@promocat.com",
+          "role": "Developer"
         }
     ],
     "require": {
@@ -27,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "YoHang88\\LetterAvatar\\": "src/"
+            "promocat\\LetterAvatar\\": "src/"
         }
     }
 }
