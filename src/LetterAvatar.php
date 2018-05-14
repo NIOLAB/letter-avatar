@@ -193,9 +193,6 @@ class LetterAvatar {
         mt_srand($seed);
 
         $options = $this->getColorOptions();
-        if (!isset($options['luminosity'])) {
-            $options['luminosity'] = 'dark';
-        }
         $options['prng'] = 'mt_rand';
 
         $color = RandomColor::one($options);
