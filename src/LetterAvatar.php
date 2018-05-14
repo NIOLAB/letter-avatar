@@ -2,6 +2,7 @@
 
 namespace promocat\LetterAvatar;
 
+use Colors\RandomColor;
 use Intervention\Image\ImageManager;
 
 class LetterAvatar {
@@ -38,11 +39,16 @@ class LetterAvatar {
      */
     protected $color;
 
+    /**
+     * @var array
+     */
+    protected $colorOptions;
 
-    public function __construct($name, $shape = 'circle', $size = '48') {
+    public function __construct($name, $shape = 'circle', $size = '48', $colorOptions = []) {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
         $this->setShape($shape);
+        $this->setColorOptions($colorOptions);
         $this->setSize($size);
     }
 
@@ -164,7 +170,7 @@ class LetterAvatar {
      * @return string
      */
     public function getBackgroundColor($lighten = 0.5) {
-        return $this->colorLuminance($this->color,$lighten);
+        return $this->colorLuminance($this->color, $lighten);
     }
 
     public function __toString() {
@@ -183,16 +189,30 @@ class LetterAvatar {
     }
 
     protected function stringToColor($string) {
-        // random color
-        $rgb = substr(dechex(crc32($string)), 0, 6);
-        // make it darker
-        $darker = 2;
-        list($R16, $G16, $B16) = str_split($rgb, 2);
-        $R = sprintf("%02X", floor(hexdec($R16) / $darker));
-        $G = sprintf("%02X", floor(hexdec($G16) / $darker));
-        $B = sprintf("%02X", floor(hexdec($B16) / $darker));
-        return '#' . $R . $G . $B;
+        $seed = crc32($string);
+        mt_srand($seed);
+
+        $options = $this->getColorOptions();
+        $options['prng'] = 'mt_rand';
+
+        $color = RandomColor::one($this->getColorOptions());
+
+        mt_srand();
+
+        return $color;
     }
+
+//    protected function stringToColor($string) {
+//        // random color
+//        $rgb = substr(dechex(crc32($string)), 0, 6);
+//        // make it darker
+//        $darker = 2;
+//        list($R16, $G16, $B16) = str_split($rgb, 2);
+//        $R = sprintf("%02X", floor(hexdec($R16) / $darker));
+//        $G = sprintf("%02X", floor(hexdec($G16) / $darker));
+//        $B = sprintf("%02X", floor(hexdec($B16) / $darker));
+//        return '#' . $R . $G . $B;
+//    }
 
     /**
      * Adjust color luminance (@see  https://gist.github.com/stephenharris/5532899)
@@ -219,6 +239,20 @@ class LetterAvatar {
         }
 
         return $new_hex;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColorOptions() {
+        return $this->colorOptions;
+    }
+
+    /**
+     * @param array $colorOptions
+     */
+    public function setColorOptions($colorOptions) {
+        $this->colorOptions = $colorOptions;
     }
 
 }
