@@ -194,7 +194,7 @@ class LetterAvatar {
 
         $options = $this->getColorOptions();
         $options['luminosity'] = 'dark';
-        $options['hue'] = ['red','orange','yellow','blue','purple','green'];
+        $options['hue'] = ['red','orange','yellow'];
         $options['prng'] = 'mt_rand';
 
         $color = RandomColor::one($this->getColorOptions());
