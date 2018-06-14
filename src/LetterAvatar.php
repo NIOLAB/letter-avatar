@@ -48,7 +48,7 @@ class LetterAvatar {
     /**
      * @var array
      */
-    protected $colorOptions;
+    protected $colorOptions  = [];
 
     public function __construct($name, $shape = 'circle', $colorOptions = [], $size = '48') {
         $this->setName($name);
