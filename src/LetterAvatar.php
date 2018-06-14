@@ -138,6 +138,8 @@ class LetterAvatar {
     public function generate() {
         $words = $this->break_words($this->name);
 
+
+
         $number_of_word = 1;
         $this->name_initials = '';
         foreach ($words as $word) {
@@ -145,9 +147,12 @@ class LetterAvatar {
             if ($number_of_word > 2)
                 break;
 
-            $this->name_initials .= mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
-
-            $number_of_word++;
+            $firstCharacter = trim(mb_substr($word, 0, 1, 'UTF-8'));
+            $firstCharacterUpper = mb_strtoupper(trim(mb_substr($word, 0, 1, 'UTF-8')));
+            if ($number_of_word == 1 || $firstCharacter == $firstCharacterUpper) {
+                $this->name_initials .= $firstCharacterUpper;
+                $number_of_word++;
+            }
         }
 
         $this->color = $color = $this->stringToColor($this->name);
