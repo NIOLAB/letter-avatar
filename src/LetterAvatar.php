@@ -50,7 +50,7 @@ class LetterAvatar {
      */
     protected $colorOptions  = [];
 
-    public function __construct($name, $shape = 'circle', $colorOptions = [], $size = '48') {
+    public function __construct($name, $shape = 'circle', $size = 48, $colorOptions = [], $font = null) {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
         $this->setShape($shape);
