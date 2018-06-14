@@ -5,6 +5,12 @@ namespace promocat\LetterAvatar;
 use Intervention\Image\ImageManager;
 
 class LetterAvatar {
+
+    /**
+     * @var string
+     */
+    protected $font;
+
     /**
      * @var string
      */
@@ -39,12 +45,18 @@ class LetterAvatar {
     protected $color;
 
 
-    public function __construct($name, $shape = 'circle', $size = '48') {
+
+    public function __construct($name, $shape = 'circle', $size = '48',$font=null) {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
         $this->setShape($shape);
         $this->setSize($size);
+        if (empty($font) || !file_exists($font)) {
+            $font = __DIR__ . '/fonts/arial-bold.ttf';
+        }
+        $this->setFont($font);
     }
+
 
     /**
      * @return string
@@ -102,6 +114,12 @@ class LetterAvatar {
         $this->size = $size;
     }
 
+    /**
+     * @param string $font
+     */
+    public function setFont($font) {
+        $this->font = $font;
+    }
 
     /**
      * @return \Intervention\Image\Image
@@ -136,7 +154,7 @@ class LetterAvatar {
         }
 
         $canvas->text($this->name_initials, 240, 240, function ($font) {
-            $font->file(__DIR__ . '/fonts/arial-bold.ttf');
+            $font->file($this->font);
             $font->size(220);
             $font->color('#ffffff');
             $font->valign('middle');
@@ -220,5 +238,7 @@ class LetterAvatar {
 
         return $new_hex;
     }
+
+
 
 }
