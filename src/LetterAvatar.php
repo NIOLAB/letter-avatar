@@ -206,7 +206,7 @@ class LetterAvatar {
     }
 
     public function break_words($name) {
-        $temp_word_arr = explode(' ', $name);
+        $temp_word_arr = preg_split('/[\s\.]/',$name);//explode(' ', $name);
         $final_word_arr = [];
         foreach ($temp_word_arr as $key => $word) {
             if ($word != "" && $word != ",") {
