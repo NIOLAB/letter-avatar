@@ -13,6 +13,11 @@ class LetterAvatar {
     protected $font;
 
     /**
+     * @var int
+     */
+    protected $fontSize;
+
+    /**
      * @var string
      */
     protected $name;
@@ -50,7 +55,7 @@ class LetterAvatar {
      */
     protected $colorOptions  = [];
 
-    public function __construct($name, $shape = 'circle', $size = 48, $colorOptions = [], $font = null) {
+    public function __construct($name, $shape = 'circle', $size = 48, $colorOptions = [], $font = null, $fontSize=220) {
         $this->setName($name);
         $this->setImageManager(new ImageManager());
         $this->setShape($shape);
@@ -60,6 +65,7 @@ class LetterAvatar {
             $font = __DIR__ . '/fonts/arial-bold.ttf';
         }
         $this->setFont($font);
+        $this->setFontSize($fontSize);
     }
 
 
@@ -160,7 +166,7 @@ class LetterAvatar {
 
         $canvas->text($this->name_initials, 240, 240, function ($font) {
             $font->file($this->font);
-            $font->size(220);
+            $font->size($this->fontSize);
             $font->color('#ffffff');
             $font->valign('middle');
             $font->align('center');
@@ -270,6 +276,13 @@ class LetterAvatar {
      */
     public function setColorOptions($colorOptions) {
         $this->colorOptions = $colorOptions;
+    }
+
+    /**
+     * @param int $fontSize
+     */
+    public function setFontSize($fontSize) {
+        $this->fontSize = $fontSize;
     }
 
 }
