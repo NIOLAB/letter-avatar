@@ -1,5 +1,5 @@
 {
-    "name": "promocat/letter-avatar",
+    "name": "NIOLAB/letter-avatar",
     "description": "Generate user avatar using name initials letter.",
     "keywords": [
         "letter avatar",
@@ -19,6 +19,11 @@
           "name": "PromoCat",
           "email": "development@promocat.com",
           "role": "Developer"
+        },
+         {
+          "name": "Harry Doddema",
+          "email": "harry@niolab.nl",
+          "role": "Developer"
         }
     ],
     "require": {
@@ -33,7 +38,7 @@
     },
     "autoload": {
         "psr-4": {
-            "promocat\\LetterAvatar\\": "src/"
+            "NIOLAB\\LetterAvatar\\": "src/"
         }
     }
 }
