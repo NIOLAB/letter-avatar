@@ -15,7 +15,7 @@ Generate user avatar using name initials letter.
 Via Composer
 
 ``` bash
-$ composer require promocat/letter-avatar
+$ composer require NIOLAB/letter-avatar
 ```
 
 ### Implementation
@@ -23,7 +23,7 @@ $ composer require promocat/letter-avatar
 ``` php
 <?php
 
-use promocat\LetterAvatar\LetterAvatar;
+use NIOLAB\LetterAvatar\LetterAvatar;
 
 $avatar = new LetterAvatar('Steven Spielberg');
 
