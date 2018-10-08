@@ -1,6 +1,6 @@
 <?php
 
-namespace promocat\LetterAvatar;
+namespace NIOLAB\LetterAvatar;
 
 use Colors\RandomColor;
 use Intervention\Image\ImageManager;
